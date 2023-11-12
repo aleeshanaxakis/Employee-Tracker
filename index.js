@@ -1,6 +1,45 @@
-// Install Node, Inquirer 8.2.4 (npm i inquirer@8.2.4) + MySQL
+// Install Node, Inquirer, MySQL
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+
+// Make the connection
+const connection = mysql.connection1({
+    host: '',
+    user: '',
+    password: 'benJiHapp*****',
+    database: 'departments_db',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+}),
+
+// Use the connection for querying
+const promise = connection.promise();
+
+async function createDepartmentsTable() {
+    try {
+        // Drop database if exists, create a new database, and use it
+        await promise.query('DROP DATABASE IF EXISTS departments_db');
+        await promise.query('CREATE DATABASE departments_db');
+        await promise.query('USE departments_db');
+
+        // Create the departments table
+        await promise.query(`
+        CREATE TABLE departments (
+            department-name VARCHAR
+            PRIMARY KEY
+            )
+        `);
+
+        console.log('Departments database and table created successfully.');
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        connection.end(); // Close the connection
+    }
+}
+
+createDepartmentsTable();
 
 // Similar to table of contents in readme, have a link to view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 // TO DO: Add # to these for links
@@ -15,6 +54,9 @@ const landingPage = `
 `;
 
 // View all departments > Formatted table showing department names and department ids (we learned this recently)
+;
+;
+
 // View all roles > Job title, role id, department, salary
 // View all employees > Formatted table showing employee data
 
