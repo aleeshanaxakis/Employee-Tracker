@@ -1,4 +1,6 @@
 // Install Node, Inquirer 8.2.4 (npm i inquirer@8.2.4) + MySQL
+const mysql = require('mysql2');
+const inquirer = require('inquirer');
 
 // Similar to table of contents in readme, have a link to view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 
