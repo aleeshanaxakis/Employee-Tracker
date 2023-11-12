@@ -3,6 +3,16 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
 // Similar to table of contents in readme, have a link to view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
+// TO DO: Add # to these for links
+const landingPage = `
+- View all departments
+- View all roles
+- View all employees
+- Add a department
+- Add a role
+- Add an employee
+- Update an employee role
+`;
 
 // View all departments > Formatted table showing department names and department ids (we learned this recently)
 // View all roles > Job title, role id, department, salary
