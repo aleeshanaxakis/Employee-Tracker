@@ -100,7 +100,7 @@ inquirer
     {
         type: 'input',
         name: 'employee-surname',
-        message: "Please enter the employee's last name.";
+        message: "Please enter the employee's last name.",
     },
     {
         type: 'input',
