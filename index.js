@@ -13,17 +13,68 @@ const dbConfig = {
 // Make the connection
 const connection = mysql.createConnection(dbConfig);
 
-// Similar to table of contents in readme, have a link to view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
-// TO DO: Add # to these for links
-const landingPage = `
-- View all departments
-- View all roles
-- View all employees
-- Add a department
-- Add a role
-- Add an employee
-- Update an employee role
-`;
+// Function to display the main menu
+function displayMainMenu() {
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'menuChoice',
+                message: 'Please choose an option:',
+                choices: [
+                    'View all departments',
+                    'View all roles',
+                    'View all employees',
+                    'Add a department',
+                    'Add a role',
+                    'Add an employee',
+                    'Update an employee role',
+                    'Exit',
+                ],
+            },
+        ])
+        .then((answer) => {
+            // Perform actions based on the user's choice
+            switch (answer.menuChoice) {
+                case 'View all departments':
+                    viewAllDepartments();
+                    break;
+
+                case 'View all roles':
+                    viewAllRoles();
+                    break;
+    
+                case 'View all employees':
+                    viewAllEmployees();
+                    break;
+    
+                case 'Add a department':
+                    addDepartment();
+                    break;
+    
+                case 'Add a role':
+                    addRole();
+                    break;
+    
+                case 'Add an employee':
+                    addEmployee();
+                    break;
+                
+                    case 'Update an employee role':
+                    updateEmployeeRole();
+                    break;
+
+                case 'Exit':
+                    console.log('Exiting the application.');
+                    connection.end();
+                    break;
+
+                    default:
+                        console.log('Invalid choice. Please try again.');
+                        displayMainMenu()
+            }
+        });
+}
 
 // Function to view all departments
 function viewAllDepartments() {
