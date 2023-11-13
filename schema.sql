@@ -1,8 +1,3 @@
--- Drop the tables if they exist
-DROP TABLE IF EXISTS employee;
-DROP TABLE IF EXISTS role;
-DROP TABLE IF EXISTS department;
-
 -- Drop the database if it exists
 DROP DATABASE IF EXISTS hr_tracker;
 
@@ -11,6 +6,11 @@ CREATE DATABASE hr_tracker;
 
 -- Use the database
 USE hr_tracker;
+
+-- Drop the tables if they exist
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS department;
 
 -- Create the "department" table
 CREATE TABLE department (
