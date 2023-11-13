@@ -170,15 +170,16 @@ function addRole() {
         },
         {
         type: 'input',
-        name: 'role-department',
-        message: 'Please enter the department the role belongs to.',
+        name: 'department_id',
+        message: 'Please enter the ID number of the department the role belongs to.',
         },
     ])
     .then((answers) => {
+        console.log(answers.department_id);
         const query = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
 
             connection.query(query, 
-                [answers['role-name'], answers['role-salary'], answers['role-department-id']],
+                [answers['role-name'], answers['role-salary'], answers['department_id']],
                 (err) => {
                     if (err) {
                         console.error('Error adding role:', err.message);
@@ -188,7 +189,7 @@ function addRole() {
             console.log('Department added role.');
             displayMainMenu(); 
         });
-    });
+});
 }
 
 // Function to add an employee
@@ -222,11 +223,10 @@ function addEmployee() {
 
             connection.query(
                 query,
-                [
-                    answers['employee-first-name'],
-                    answers['employee-last-name'],
-                    answers['employee-role-id'],
-                    answers['employee-manager-id'],
+                [answers['employee-name'],
+                answers['employee-surname'],
+                answers['employee-role'],
+                answers['employee-manager'],
                 ],
                 (err) => {
                     if (err) {
@@ -241,7 +241,7 @@ function addEmployee() {
     });
 }
 
-// Function to update an employee
-function updateEmployee() {
+// Function to update an employee role
+function updateEmployeeRole() {
 
 }
