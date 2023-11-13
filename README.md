@@ -3,7 +3,7 @@
 ## Description
 This is a content management system that manages a company's employee database, using Node.js, Inquirer, and MySQL.
 
-A link to the walkthrough video is available here:
+A link to the walkthrough video is available here: https://drive.google.com/file/d/1fhsPSrERNiI5HolAfJqv_ztYninTNsl4/view
 
 ## User Story
 AS A business owner
