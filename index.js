@@ -4,9 +4,9 @@ const inquirer = require('inquirer');
 
 // Database connection configuration
 const dbConfig = {
-    host: 'your-database-host',
-    user: 'your-username',
-    password: 'benJiHapp*****',
+    host: 'localHost',
+    user: 'root',
+    password: 'benJiHappy222$',
     database: 'hr_tracker',
 };
 
@@ -76,6 +76,8 @@ function displayMainMenu() {
         });
 }
 
+displayMainMenu();
+
 // Function to view all departments
 function viewAllDepartments() {
     const query = 'SELECT department_name, id FROM department';
@@ -111,7 +113,7 @@ function viewAllRoles() {
 // Function to view all employees
 function viewAllEmployees() {
     const query = 
-    'SELECT employee.id, first_name, last_name, title, name AS department, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id;';
+    'SELECT employee.id, first_name, last_name, title, department_name AS department, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id;';
     
     connection.query(query, (err, results) => {
         if (err) {
@@ -239,4 +241,7 @@ function addEmployee() {
     });
 }
 
-// Update an employee role > Prompted to select an employee to update & input new role , added to database
+// Function to update an employee
+function updateEmployee() {
+
+}
