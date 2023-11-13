@@ -15,7 +15,7 @@ USE hr_tracker;
 -- Create the "department" table
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL
+    department_name VARCHAR(30) NOT NULL,
 );
 
 -- Create the "role" table
@@ -37,14 +37,3 @@ CREATE TABLE employee (
     FOREIGN KEY (role_id) REFERENCES role(id),
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
-
-SELECT * FROM department;
-
--- View roles
-SELECT title, id, department_id, salary FROM role;
-
--- View employees
-SELECT employee.id, first_name, last_name, title, name AS department, salary, manager_id
-FROM employee
-JOIN role ON employee.role_id = role.id
-JOIN department ON role.department_id = department.id;

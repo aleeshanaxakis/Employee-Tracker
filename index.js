@@ -27,7 +27,7 @@ const landingPage = `
 
 // Function to view all departments
 function viewAllDepartments() {
-    const query = 'SELECT * FROM hr_tracker';
+    const query = 'SELECT department_name, id FROM hr_tracker';
 
     connection.query(query, (err, results) => {
         if (err) {
@@ -42,16 +42,18 @@ function viewAllDepartments() {
 }
 
 // View all roles > Job title, role id, department, salary
-// when user clicks view roles
-// select * from roles
-// display the data to the console
+function viewAllRoles() {
+    const query = 'SELECT title, id, department_id, salary FROM role;'
+
+    console.table(results);
+}
 
 // View all employees > Formatted table showing employee data
+function viewAllEmployees() {
+    const query = 'SELECT employee.id, first_name, last_name, title, name AS department, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id;'
 
-
-    // You might want to use a separate file that contains functions for performing specific SQL queries you'll need to use. A constructor function or class could be helpful for organizing these. 
-
-    // You might also want to include a seeds.sql file to pre-populate your database, making the development of individual features much easier.
+    console.table(results);
+}
 
 // Add a department > Prompted to enter the name of the department , which is then added to the database
 inquirer
