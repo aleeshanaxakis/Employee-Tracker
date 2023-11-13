@@ -2,20 +2,16 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
-// Make the connection
-const connection = mysql.connection1({
-    host: '',
-    user: '',
+// Database connection configuration
+const dbConfig = {
+    host: 'your-database-host',
+    user: 'your-username',
     password: 'benJiHapp*****',
-    database: 'departments_db',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-}),
+    database: 'hr_tracker',
+};
 
-// Use the connection for querying
-const promise = connection.promise();
-
+// Make the connection
+const connection = mysql.createConnection(dbConfig);
 
 // Similar to table of contents in readme, have a link to view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 // TO DO: Add # to these for links
@@ -29,37 +25,29 @@ const landingPage = `
 - Update an employee role
 `;
 
-// View all departments > Formatted table showing department names and department ids (we learned this recently)
-async function createDepartmentsTable() {
-    try {
-        // Drop database if exists, create a new database, and use it
-        await promise.query('DROP DATABASE IF EXISTS departments_db');
-        await promise.query('CREATE DATABASE departments_db');
-        await promise.query('USE departments_db');
+// Function to view all departments
+function viewAllDepartments() {
+    const query = 'SELECT * FROM hr_tracker';
 
-        // Create the departments table
-        await promise.query(`
-        CREATE TABLE departments (
-            department-name VARCHAR
-            PRIMARY KEY
-            )
-        `);
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching departments:', err.message);
+            return;
+        }
+    
+    console.table(results);
 
-        console.log('Departments database and table created successfully.');
-    } catch (error) {
-        console.error(error.message);
-    } finally {
-        connection.end(); // Close the connection
-    }
+    connection.end();
+    });
 }
 
-createDepartmentsTable();
-
 // View all roles > Job title, role id, department, salary
+// when user clicks view roles
+// select * from roles
+// display the data to the console
 
 // View all employees > Formatted table showing employee data
 
-    // Schema should contain the following three tables: department, role, employee
 
     // You might want to use a separate file that contains functions for performing specific SQL queries you'll need to use. A constructor function or class could be helpful for organizing these. 
 
