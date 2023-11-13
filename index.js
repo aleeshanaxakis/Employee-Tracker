@@ -6,7 +6,7 @@ const inquirer = require('inquirer');
 const dbConfig = {
     host: 'localHost',
     user: 'root',
-    password: 'benJiHappy222$',
+    password: ';',
     database: 'hr_tracker',
 };
 
@@ -166,7 +166,7 @@ function addRole() {
         {
         type: 'input',
         name: 'role-salary',
-        message: 'Please enter the salary of the role.',
+        message: 'Please enter the salary of the role as a number only.',
         },
         {
         type: 'input',
@@ -186,7 +186,7 @@ function addRole() {
                     return;
                     }
 
-            console.log('Department added role.');
+            console.log('Role added successfully.');
             displayMainMenu(); 
         });
 });
@@ -209,12 +209,12 @@ function addEmployee() {
             {
                 type: 'input',
                 name: 'employee-role',
-                message: "Please enter the employee's role.",
+                message: "Please enter the ID number of the employee's role.",
             },
             {
                 type: 'input',
                 name: 'employee-manager',
-                message: "Please enter the name of the employee's manager."
+                message: "Please enter the ID number of the employee's manager."
             },
         ])
         .then((answers) => {
@@ -235,7 +235,7 @@ function addEmployee() {
                     }
 
                     console.log('Employee added successfully.');
-                    displayMainMenu(); // Display the main menu again
+                    displayMainMenu();
                 }
             );
     });
