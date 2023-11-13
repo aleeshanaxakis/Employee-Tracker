@@ -78,7 +78,7 @@ function displayMainMenu() {
 
 // Function to view all departments
 function viewAllDepartments() {
-    const query = 'SELECT department_name, id FROM hr_tracker';
+    const query = 'SELECT department_name, id FROM department';
 
     connection.query(query, (err, results) => {
         if (err) {
@@ -87,85 +87,156 @@ function viewAllDepartments() {
         }
     
     console.table(results);
+    displayMainMenu();
 
-    connection.end();
     });
 }
 
-// View all roles > Job title, role id, department, salary
+// Function to view all roles
 function viewAllRoles() {
-    const query = 'SELECT title, id, department_id, salary FROM role;'
+    const query = 'SELECT title, id, department_id, salary FROM role;';
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching roles:', err.message);
+            return;
+        }
 
     console.table(results);
+    displayMainMenu();
+
+    });
 }
 
-// View all employees > Formatted table showing employee data
+// Function to view all employees
 function viewAllEmployees() {
-    const query = 'SELECT employee.id, first_name, last_name, title, name AS department, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id;'
+    const query = 
+    'SELECT employee.id, first_name, last_name, title, name AS department, salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id;';
+    
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching roles:', err.message);
+            return;
+        }
 
     console.table(results);
+    displayMainMenu();
+
+    });
 }
 
-// Add a department > Prompted to enter the name of the department , which is then added to the database
-inquirer
-.prompt([
-    {
-        type: 'input',
-        name: 'department-name',
-        message: 'Please enter the name of the department.',
-    },
-])
-.then(() => {
+// Function to add department
+function addDepartment() {
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'department-name',
+                    message: 'Please enter the name of the department.',
+                },
+        ])
+        .then((answers) => {
+            const query = 'INSERT INTO department (department_name) VALUES (?)';
 
-});
-// Add a role > Prompted to enter info, added to database
-inquirer
-.prompt([
-    {
+            connection.query(query, 
+                [answers['department-name']], 
+                (err) => {
+                    if (err) {
+                        console.error('Error adding department:', err.message);
+                    return;
+                    }
+
+            console.log('Department added successfully.');
+            displayMainMenu();
+        });
+    });
+}
+
+// Function to add role
+function addRole() {
+        inquirer
+            .prompt([
+                {
         type: 'input',
         name: 'role-name',
         message: 'Please enter the title of the role.',
-    },
-    {
+        },
+        {
         type: 'input',
         name: 'role-salary',
         message: 'Please enter the salary of the role.',
-    },
-    {
+        },
+        {
         type: 'input',
         name: 'role-department',
         message: 'Please enter the department the role belongs to.',
-    },
-])
-.then(() => {
+        },
+    ])
+    .then((answers) => {
+        const query = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
 
-});
-// Add an employee > Prompted to enter info, added to database
-inquirer
-.prompt([
-    {
-        type: 'input',
-        name: 'employee-name',
-        message: "Please enter the employee's first name.",
-    },
-    {
-        type: 'input',
-        name: 'employee-surname',
-        message: "Please enter the employee's last name.",
-    },
-    {
-        type: 'input',
-        name: 'employee-role',
-        message: "Please enter the employee's role.",
-    },
-    {
-        type: 'input',
-        name: 'employee-manager',
-        message: "Please enter the name of the employee's manager."
-    },
-])
-.then(() => {
+            connection.query(query, 
+                [answers['role-name'], answers['role-salary'], answers['role-department-id']],
+                (err) => {
+                    if (err) {
+                        console.error('Error adding role:', err.message);
+                    return;
+                    }
 
-});
+            console.log('Department added role.');
+            displayMainMenu(); 
+        });
+    });
+}
+
+// Function to add an employee
+function addEmployee() {
+        inquirer
+            .prompt([
+            {
+                type: 'input',
+                name: 'employee-name',
+                message: "Please enter the employee's first name.",
+            },
+            {
+                type: 'input',
+                name: 'employee-surname',
+                message: "Please enter the employee's last name.",
+            },
+            {
+                type: 'input',
+                name: 'employee-role',
+                message: "Please enter the employee's role.",
+            },
+            {
+                type: 'input',
+                name: 'employee-manager',
+                message: "Please enter the name of the employee's manager."
+            },
+        ])
+        .then((answers) => {
+            const query =
+            'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+
+            connection.query(
+                query,
+                [
+                    answers['employee-first-name'],
+                    answers['employee-last-name'],
+                    answers['employee-role-id'],
+                    answers['employee-manager-id'],
+                ],
+                (err) => {
+                    if (err) {
+                        console.error('Error adding employee:', err.message);
+                        return;
+                    }
+
+                    console.log('Employee added successfully.');
+                    displayMainMenu(); // Display the main menu again
+                }
+            );
+    });
+}
 
 // Update an employee role > Prompted to select an employee to update & input new role , added to database
