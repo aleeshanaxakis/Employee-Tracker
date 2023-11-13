@@ -244,4 +244,65 @@ function addEmployee() {
 // Function to update an employee role
 function updateEmployeeRole() {
 
+    // Fetch the list of employees
+    const employeesQuery = `
+        SELECT id, first_name, last_name
+        FROM employee
+    `;
+
+    connection.query(employeesQuery, (err, employees) => {
+        if (err) {
+            console.error('Error fetching employees:', err.message);
+            displayMainMwnu();
+            return;
+        }
+
+    // Fetch the list of roles
+    const rolesQuery = `
+    SELECT id, title FROM role
+    `;
+
+    connection.query(rolesQuery, (err, roles) => {
+        if (err) {
+            console.error('Error fetching roles:', err.message);
+            displayMainMenu();
+            return;
+        }
+    })
+
+        // Prompt user to select an employee and a new role
+        inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    name: 'employeeId',
+                    message: 'Select an employee to update:',
+                    choices: employees.map(employee => ({
+                        name: '${employee.first_name} ${employee.last_name}',
+                        value: employee.id,
+                    })),
+                },
+                {
+                    type: 'list',
+                    name: 'roleId',
+                    message: 'Select a new role for the employee',
+                    choices: roles.map(role => ({
+                        name: role.title,
+                        value: role.id
+                    })),
+                },
+            ])
+            .then((answers) => {
+                // Update the employee's role in the database
+                const updateQuery = 'UPDATE employee SET role_id = ? WHERE id = ?';
+                connection.query(updateQuery, [answers.roleId, answers.employeeId], (err) => {
+                    if (err) {
+                        console.error('Error updating employee role:', err.message);
+                    } else {
+                        console.log('Employee role update successfully.');
+                    }
+                    displayMainMenu();
+                });
+            });
+    });
 }
